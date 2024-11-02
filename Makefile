@@ -1,8 +1,8 @@
-SRCS = srcs/philosopher.c
+SRCS = srcs/philosopher.c srcs/utils.c
 
 NAME = philosopher
 CC = cc
-CFLAGS = #-Wall -Werror -Wextra -g
+CFLAGS = # -Wall -Werror -Wextra -g
 
 
 
