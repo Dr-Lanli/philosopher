@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:55:51 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/04 22:10:11 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/05 20:14:50 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,31 @@
 # define COLOR_RED  "\x1b[31m"
 # define COLOR_YELLOW   "\x1b[33m"
 
-struct s_philosopher 
+struct s_data_shared
 {
-	struct s_philosopher *philosophe[5];
-	pthread_t thread;
     pthread_mutex_t lock_eat;
 	pthread_mutex_t lock_time;
     pthread_mutex_t lock_think;
     pthread_mutex_t lock_sleep;
 	pthread_mutex_t lock_dead;
 
-	int thread_created;
 	int id;
-    int forks;
+    int forks_on_table;
     int number_of_philosophers;
     int number_of_times_each_philosopher_must_eat;
     int time_to_die;
     int time_to_eat;
     int time_to_sleep;
+};
+
+struct s_philosopher 
+{
+    struct s_data_shared *data;
+	struct s_philosopher **philosophe;
+	pthread_t thread;
+
+	int id;
+    int forks;
 	uint32_t time_start;
 	uint32_t time_now;
     int has_eaten;
@@ -50,6 +57,5 @@ struct s_philosopher
 };
 
 int	ft_atoi(const char *str);
-void create_threads(struct s_philosopher *value);
 
 #endif
