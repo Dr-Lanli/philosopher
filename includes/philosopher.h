@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:55:51 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/05 20:14:50 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/06 04:52:34 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ struct s_data_shared
     pthread_mutex_t lock_think;
     pthread_mutex_t lock_sleep;
 	pthread_mutex_t lock_dead;
-
+    pthread_mutex_t *forks;
+    int total_forks;
 	int id;
-    int forks_on_table;
     int number_of_philosophers;
     int number_of_times_each_philosopher_must_eat;
     int time_to_die;
@@ -47,7 +47,9 @@ struct s_philosopher
 	pthread_t thread;
 
 	int id;
-    int forks;
+    pthread_mutex_t *left_f;
+    pthread_mutex_t *right_f;
+    int forks_in_hands;
 	uint32_t time_start;
 	uint32_t time_now;
     int has_eaten;
