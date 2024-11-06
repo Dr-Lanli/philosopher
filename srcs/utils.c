@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/02 17:15:05 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/06 19:19:13 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,12 @@ int	ft_atoi(const char *str)
 		return (-n);
 	else
 		return (n);
+}
+
+uint32_t get_time(uint32_t time_to_add)
+{
+	struct timeval tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000 + time_to_add);
 }
