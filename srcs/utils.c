@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/06 19:19:13 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/07 20:52:47 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,27 @@ uint32_t get_time(uint32_t time_to_add)
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000 + time_to_add);
+}
+
+int has_died(struct s_philosopher *philosophe, struct s_data_shared *data)
+{
+	if (philosophe->has_died)
+        return (1);
+    return (0);
+}
+
+void free_struct(struct s_philosopher **philosophe, struct s_data_shared *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->number_of_philosophers)
+	{
+		free(philosophe[i++]);
+	}
+	free(philosophe);
+	if (data->lock_forks)
+	{
+		free(data->lock_forks);
+	}
 }
