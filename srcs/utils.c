@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/07 20:52:47 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/11 22:03:26 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,13 @@ uint32_t get_time(uint32_t time_to_add)
 
 int has_died(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
+	pthread_mutex_lock(&data->lock_dead_state);
 	if (philosophe->has_died)
-        return (1);
+	{
+		pthread_mutex_unlock(&data->lock_dead_state);
+		return (1);
+	}
+	pthread_mutex_unlock(&data->lock_dead_state);
     return (0);
 }
 
@@ -69,4 +74,40 @@ void free_struct(struct s_philosopher **philosophe, struct s_data_shared *data)
 	{
 		free(data->lock_forks);
 	}
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	while (*s1 == *s2 && *s1)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
+
+void write_in_stdout(struct s_philosopher *philosophe, struct s_data_shared *data, char *state)
+{
+	pthread_mutex_lock(&data->lock_print);
+	if (ft_strcmp(state, "fork") == 0)
+	{
+		printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(0), philosophe->id);
+	}
+	else if (ft_strcmp(state, "eat") == 0)
+	{
+		printf("{%u ms} philosophe[%d] eat\n", get_time(0), philosophe->id);
+	}
+	else if (ft_strcmp(state, "sleep") == 0)
+	{
+		printf("{%u ms} philosophe[%d] sleep\n", get_time(0), philosophe->id);
+	}
+	else if (ft_strcmp(state, "think") == 0)
+	{
+		printf("{%u ms} philosophe[%d] think\n", get_time(0), philosophe->id);
+	}
+	else if (ft_strcmp(state, "died") == 0)
+	{
+		printf("{%u ms} philosophe[%d] has died\n", get_time(0), philosophe->id);
+	}
+	pthread_mutex_unlock(&data->lock_print);
 }

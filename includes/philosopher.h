@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:55:51 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/07 18:04:24 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/11 21:59:46 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 struct s_data_shared
 {
     pthread_mutex_t lock_eat_state;
+	pthread_mutex_t lock_print;
 	pthread_mutex_t lock_eat_assign;
 	pthread_mutex_t lock_time_state;
 	pthread_mutex_t lock_time_assign;
@@ -68,5 +69,6 @@ int	ft_atoi(const char *str);
 uint32_t get_time(uint32_t time_to_add);
 int has_died(struct s_philosopher *philosophe, struct s_data_shared *data);
 void free_struct(struct s_philosopher **philosophe, struct s_data_shared *data);
+void write_in_stdout(struct s_philosopher *philosophe, struct s_data_shared *data, char *state);
 
 #endif
