@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/11 22:03:26 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/12 19:14:06 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,53 @@ int	ft_strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+int	is_valid_int(char *str)
+{
+	int		len;
+	char	*int_max_str;
+	char	*int_min_str;
+
+	len = ft_strlen(str);
+	int_max_str = "2147483647";
+	int_min_str = "-2147483648";
+	if (str[0] == '-')
+	{
+		if (len > ft_strlen(int_min_str))
+			return (0);
+		if (len == ft_strlen(int_min_str) && ft_strcmp(str, int_min_str) > 0)
+			return (0);
+	}
+	else
+	{
+		if (len > ft_strlen(int_max_str))
+			return (0);
+		if (len == ft_strlen(int_max_str) && ft_strcmp(str, int_max_str) > 0)
+			return (0);
+	}
+	return (1);
+}
+
+
+
 void write_in_stdout(struct s_philosopher *philosophe, struct s_data_shared *data, char *state)
 {
 	pthread_mutex_lock(&data->lock_print);
-	if (ft_strcmp(state, "fork") == 0)
+	if (data->stop_flag)
+	{
+		pthread_mutex_unlock(&data->lock_print);
+		return ;
+	}
+	else if (ft_strcmp(state, "fork") == 0)
 	{
 		printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(0), philosophe->id);
 	}

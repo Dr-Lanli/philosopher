@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:54:17 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/11 22:16:44 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/12 19:52:34 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 
 void died(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
-	pthread_mutex_lock(&data->lock_time_state);
+	//pthread_mutex_lock(&data->lock_time_state);
 	if (!philosophe->has_died) 
 	{ 
 		philosophe->has_died = 1;
 		write_in_stdout(philosophe, data, "died");
 		data->stop_flag = 1;
 	}
-	pthread_mutex_unlock(&data->lock_time_state);
+	//pthread_mutex_unlock(&data->lock_time_state);
 	//destroy_threads(&philosophe, data);
 }
 
@@ -142,13 +142,13 @@ void *routine(void *arg)
 		//printf("time to die: %d\n", data->time_to_die);
 		pthread_mutex_unlock(&data->lock_print);
 
-		pthread_mutex_lock(&data->lock_time_state);
+		//pthread_mutex_lock(&data->lock_time_state);
 		if (philosophe->time_now - philosophe->time_start > data->time_to_die)
 		{
 			died(philosophe, data);
 			data->stop_flag = 1;
 		}
-		pthread_mutex_unlock(&data->lock_time_state);
+		//pthread_mutex_unlock(&data->lock_time_state);
 		//printf("plate eaten: %d\n", philosophe->nb_plate_eaten);
 		//printf("must eat: %d\n", data->number_of_times_each_philosopher_must_eat);
 
@@ -157,7 +157,11 @@ void *routine(void *arg)
 		{
 			pthread_mutex_lock(&data->lock_dead_assign);
 			if (philosophe->nb_plate_eaten >= data->number_of_times_each_philosopher_must_eat)
-				data->stop_flag = 1;
+				{
+					pthread_mutex_unlock(&data->lock_dead_assign);
+					pthread_mutex_unlock(&data->lock_dead_state);
+					return (NULL);
+				}
 			pthread_mutex_unlock(&data->lock_dead_assign);
 		}
 		pthread_mutex_unlock(&data->lock_dead_state);
@@ -276,6 +280,7 @@ void *deadly_routine(void *arg)
 		}
 		pthread_mutex_unlock(&data->lock_dead_state);
 	}
+	return (NULL);
 }
 
 void create_threads(struct s_philosopher **philosophe, struct s_data_shared *data)
@@ -310,9 +315,9 @@ void assign_forks(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
 	//printf(COLOR_YELLOW "address of lock_forks: %p\n" RESET_ALL, data->lock_forks);
 	philosophe->forks[0] = philosophe->id;
-	//printf(COLOR_YELLOW "philosophe [%d] address of forks[0]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[0]);
+	printf(COLOR_YELLOW "philosophe [%d] address of forks[0]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[0]);
 	philosophe->forks[1] = (philosophe->id + 1) % data->number_of_philosophers;
-	//printf(COLOR_YELLOW "philosophe [%d] address of forks[1]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[1]);
+	printf(COLOR_YELLOW "philosophe [%d] address of forks[1]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[1]);
 	if (philosophe->id % 2)
 	{
 		philosophe->forks[0] = (philosophe->id + 1) % data->number_of_philosophers;
@@ -345,6 +350,7 @@ void assign_struct_suite(struct s_philosopher *philosophe)
 	philosophe->has_slept = 0;
 	philosophe->has_died = 0;
 	philosophe->nb_plate_eaten = 0;
+	philosophe->stop_flag = 0;
 }
 
 void assign_struct(struct s_philosopher **philosophe, struct s_data_shared *data)
@@ -372,13 +378,53 @@ void assign_struct(struct s_philosopher **philosophe, struct s_data_shared *data
     }
 }
 
-void assign_inputs(int argc, char *argv[], struct s_data_shared *data)
+void browse_inputs(char *argv[])
 {
-    if (argc < 5 || argc > 6)
+	char *current_arg;
+	argv++;
+	while (*argv)
+	{
+		if (!is_valid_int(*argv))
+		{
+			printf("Error: arg not an int\n");
+			exit(EXIT_FAILURE);
+		}
+		current_arg = *argv;
+		while (*current_arg)
+		{
+			if (*current_arg < '0' || *current_arg > '9')
+			{
+				printf("Error: arg not an int\n");
+				exit(EXIT_FAILURE);
+			}
+			current_arg++;
+		}
+		argv++;
+	}
+}
+
+void check_inputs(int argc, char *argv[])
+{
+	if (argc < 5 || argc > 6)
     {
         printf(COLOR_RED "Error\n" COLOR_YELLOW "Usage:\n" "./philosopher [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] optional: [number_of_times_each_philosopher_must_eat]\n" RESET_ALL);
         exit(EXIT_FAILURE);
     }
+	browse_inputs(argv);
+	if (ft_atoi(argv[1]) >= 200)
+	{
+		printf("Error: too many philosophers\n");
+		exit(EXIT_FAILURE);
+	}
+	else if (ft_atoi(argv[2]) < 200 || ft_atoi(argv[3]) < 100 || ft_atoi(argv[4]) < 100)
+	{
+		printf("Error: Not enough time\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void assign_inputs(int argc, char *argv[], struct s_data_shared *data)
+{
     data->number_of_philosophers = ft_atoi(argv[1]);
     data->time_to_die = ft_atoi(argv[2]);
     data->time_to_eat = ft_atoi(argv[3]);
@@ -434,6 +480,7 @@ int main (int argc, char *argv[])
     struct s_data_shared data;
     struct s_philosopher **philosophe;
 	
+	check_inputs(argc, argv);
     assign_inputs(argc, argv, &data);
 	philosophe = alloc_struct(philosophe, &data);
     assign_struct(philosophe, &data);

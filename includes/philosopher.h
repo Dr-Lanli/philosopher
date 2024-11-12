@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:55:51 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/11 21:59:46 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/12 19:15:14 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ struct s_philosopher
 	unsigned int forks_in_hands;
 	uint32_t time_start;
 	uint32_t time_now;
+	unsigned int stop_flag;
 	unsigned int nb_plate_eaten;
     unsigned int has_eaten;
     unsigned int has_slept;
@@ -70,5 +71,6 @@ uint32_t get_time(uint32_t time_to_add);
 int has_died(struct s_philosopher *philosophe, struct s_data_shared *data);
 void free_struct(struct s_philosopher **philosophe, struct s_data_shared *data);
 void write_in_stdout(struct s_philosopher *philosophe, struct s_data_shared *data, char *state);
+int	is_valid_int(char *str);
 
 #endif
