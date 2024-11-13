@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/12 19:14:06 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/13 22:40:00 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ uint32_t get_time(uint32_t time_to_add)
 	struct timeval tv;
 
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000 + time_to_add);
+	unsigned int time = ((tv.tv_sec * 1000 + tv.tv_usec / 1000) + time_to_add);
+	printf("printed get_time: %d\n", time);
+	return ((tv.tv_sec * 1000 + tv.tv_usec / 1000) + time_to_add);
 }
 
 int has_died(struct s_philosopher *philosophe, struct s_data_shared *data)
@@ -121,8 +123,6 @@ int	is_valid_int(char *str)
 	}
 	return (1);
 }
-
-
 
 void write_in_stdout(struct s_philosopher *philosophe, struct s_data_shared *data, char *state)
 {

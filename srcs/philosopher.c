@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:54:17 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/12 19:52:34 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/13 22:46:17 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void destroy_threads(struct s_philosopher **philosophe, struct s_data_shared *da
     {
         if (pthread_join(philosophe[i]->thread, NULL) != 0)
         {
+			free_struct(philosophe, data);
             exit(EXIT_FAILURE);
         }
         usleep(25);
@@ -65,6 +66,33 @@ void destroy_check_threads(struct s_philosopher **philosophe, struct s_data_shar
     }
 }
 
+void died(struct s_philosopher *philosophe, struct s_data_shared *data)
+{
+	pthread_mutex_lock(&data->lock_time_state);
+	if (!philosophe->has_died) 
+	{ 
+		philosophe->has_died = 1;
+		write_in_stdout(philosophe, data, "died");
+		data->stop_flag = 1;
+	}
+	pthread_mutex_unlock(&data->lock_time_state);
+	//destroy_threads(&philosophe, data);
+}
+/* implementer eat_and_sleep et just_eat afin de calculer le bon temps*/
+void check_died(struct s_philosopher *philosophe, struct s_data_shared *data)
+{
+	pthread_mutex_lock(&data->lock_print);
+	philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
+	printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
+	printf("time to eat: %d, time to sleep: %d\n", data->time_to_eat, data->time_to_sleep);
+	
+	if (philosophe->time_now - philosophe->time_start > data->time_to_die)
+	{
+		died(philosophe, data);
+	}
+	pthread_mutex_unlock(&data->lock_print);
+}
+
 void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
 	pthread_mutex_lock(&data->lock_eat_state);
@@ -80,6 +108,7 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 	}
 	pthread_mutex_unlock(&data->lock_eat_state);
 	pthread_mutex_lock(&data->lock_sleep_state);
+	check_died(philosophe, data);
 	if (philosophe->has_eaten)
 	{
 		philosophe->has_slept = 1;
@@ -90,25 +119,13 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 	}
 	pthread_mutex_unlock(&data->lock_sleep_state);
 	pthread_mutex_lock(&data->lock_think_state);
+	check_died(philosophe, data);
 	if (philosophe->has_eaten && philosophe->has_slept)
 	{
 		philosophe->has_thought = 1;
 		write_in_stdout(philosophe, data, "think");
 	}
 	pthread_mutex_unlock(&data->lock_think_state);
-}
-
-void died(struct s_philosopher *philosophe, struct s_data_shared *data)
-{
-	//pthread_mutex_lock(&data->lock_time_state);
-	if (!philosophe->has_died) 
-	{ 
-		philosophe->has_died = 1;
-		write_in_stdout(philosophe, data, "died");
-		data->stop_flag = 1;
-	}
-	//pthread_mutex_unlock(&data->lock_time_state);
-	//destroy_threads(&philosophe, data);
 }
 
 void *routine(void *arg)
@@ -125,10 +142,8 @@ void *routine(void *arg)
     {
         pthread_mutex_lock(&data->lock_forks[philosophe->forks[0]]);
         write_in_stdout(philosophe, data, "fork");
-		//printf(COLOR_YELLOW "philosophe [%d] address of forks[0]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[0]);
         pthread_mutex_lock(&data->lock_forks[philosophe->forks[1]]);
         write_in_stdout(philosophe, data, "fork");
-		//printf(COLOR_YELLOW "philosophe [%d] address of forks[1]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[1]);
         //printf("test fork: %d\n", data->forks_on_table);
 		pthread_mutex_lock(&data->lock_eat_state);
 		philosophe->forks_in_hands = 2;
@@ -143,11 +158,9 @@ void *routine(void *arg)
 		pthread_mutex_unlock(&data->lock_print);
 
 		//pthread_mutex_lock(&data->lock_time_state);
-		if (philosophe->time_now - philosophe->time_start > data->time_to_die)
-		{
-			died(philosophe, data);
-			data->stop_flag = 1;
-		}
+		check_died(philosophe, data);
+
+
 		//pthread_mutex_unlock(&data->lock_time_state);
 		//printf("plate eaten: %d\n", philosophe->nb_plate_eaten);
 		//printf("must eat: %d\n", data->number_of_times_each_philosopher_must_eat);
@@ -156,7 +169,7 @@ void *routine(void *arg)
 		if (data->number_of_times_each_philosopher_must_eat)
 		{
 			pthread_mutex_lock(&data->lock_dead_assign);
-			if (philosophe->nb_plate_eaten >= data->number_of_times_each_philosopher_must_eat)
+			if (philosophe->nb_plate_eaten > data->number_of_times_each_philosopher_must_eat)
 				{
 					pthread_mutex_unlock(&data->lock_dead_assign);
 					pthread_mutex_unlock(&data->lock_dead_state);
@@ -166,7 +179,7 @@ void *routine(void *arg)
 		}
 		pthread_mutex_unlock(&data->lock_dead_state);
         //nb_exe_routine++;
-        usleep(100);
+        usleep(25);
     }
     return (NULL);
 }
@@ -256,29 +269,11 @@ void *deadly_routine(void *arg)
 	{
 		if (!philosophe->forks_in_hands)
 		{
-			//printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(0), philosophe->id);
+			printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(0), philosophe->id);
 			philosophe->forks_in_hands = 1;
 		}
 		routine_condition(philosophe, data);
-		pthread_mutex_lock(&data->lock_time_assign);
 		philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
-		//printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
-		//printf("time to die: %d\n", data->time_to_die);
-		pthread_mutex_unlock(&data->lock_time_assign);
-		pthread_mutex_lock(&data->lock_dead_state);
-		if (philosophe->time_now - philosophe->time_start > data->time_to_die)
-		{
-			pthread_mutex_lock(&data->lock_dead_assign);
-			philosophe->has_died = 1;
-			pthread_mutex_unlock(&data->lock_dead_assign);
-			//printf("{%u ms} philosophe[%d] has died\n", get_time(0), philosophe->id);
-			pthread_mutex_lock(&data->lock_dead_assign);
-			philosophe->has_died = 0;
-			pthread_mutex_unlock(&data->lock_dead_assign);
-			//destroy_threads(&philosophe, data);
-			return (NULL);
-		}
-		pthread_mutex_unlock(&data->lock_dead_state);
 	}
 	return (NULL);
 }
@@ -315,9 +310,9 @@ void assign_forks(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
 	//printf(COLOR_YELLOW "address of lock_forks: %p\n" RESET_ALL, data->lock_forks);
 	philosophe->forks[0] = philosophe->id;
-	printf(COLOR_YELLOW "philosophe [%d] address of forks[0]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[0]);
+	//printf(COLOR_YELLOW "philosophe [%d] address of forks[0]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[0]);
 	philosophe->forks[1] = (philosophe->id + 1) % data->number_of_philosophers;
-	printf(COLOR_YELLOW "philosophe [%d] address of forks[1]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[1]);
+	//printf(COLOR_YELLOW "philosophe [%d] address of forks[1]: %p\n" RESET_ALL, philosophe->id, (void *)&philosophe->forks[1]);
 	if (philosophe->id % 2)
 	{
 		philosophe->forks[0] = (philosophe->id + 1) % data->number_of_philosophers;
@@ -381,6 +376,7 @@ void assign_struct(struct s_philosopher **philosophe, struct s_data_shared *data
 void browse_inputs(char *argv[])
 {
 	char *current_arg;
+	
 	argv++;
 	while (*argv)
 	{
@@ -410,17 +406,12 @@ void check_inputs(int argc, char *argv[])
         printf(COLOR_RED "Error\n" COLOR_YELLOW "Usage:\n" "./philosopher [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] optional: [number_of_times_each_philosopher_must_eat]\n" RESET_ALL);
         exit(EXIT_FAILURE);
     }
+	if (ft_atoi(argv[1]) > 200)
+	{
+		printf(COLOR_RED "Error\n" RESET_ALL);
+		exit(EXIT_FAILURE);
+	}
 	browse_inputs(argv);
-	if (ft_atoi(argv[1]) >= 200)
-	{
-		printf("Error: too many philosophers\n");
-		exit(EXIT_FAILURE);
-	}
-	else if (ft_atoi(argv[2]) < 200 || ft_atoi(argv[3]) < 100 || ft_atoi(argv[4]) < 100)
-	{
-		printf("Error: Not enough time\n");
-		exit(EXIT_FAILURE);
-	}
 }
 
 void assign_inputs(int argc, char *argv[], struct s_data_shared *data)
@@ -453,10 +444,7 @@ void mutex_init(struct s_data_shared *data)
 	pthread_mutex_init(&data->lock_dead_assign, NULL);
 	pthread_mutex_init(&data->lock_print, NULL);
 	while (i < data->number_of_philosophers)
-	{
-		pthread_mutex_init(&data->lock_forks[i], NULL);
-		i++;
-	}
+		pthread_mutex_init(&data->lock_forks[i++], NULL);
 }
 
 struct s_philosopher **alloc_struct(struct s_philosopher **philosophe, struct s_data_shared *data)
