@@ -100,6 +100,7 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 	{
 		philosophe->has_eaten = 1;
 		philosophe->nb_plate_eaten++;
+		/* Enlever la valeur ajouter*/
 		philosophe->time_start = get_time(data->time_to_eat);
 		write_in_stdout(philosophe, data, "eat");
 		pthread_mutex_unlock(&data->lock_forks[philosophe->forks[0]]);
