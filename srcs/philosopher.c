@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:54:17 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/14 20:21:17 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/14 22:00:43 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,11 +158,10 @@ void *routine(void *arg)
 		routine_condition(philosophe, data);
 		
 		//pthread_mutex_lock(&data->lock_print);
-		philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
-		printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
-		printf("time to die: %d\n", data->time_to_die);
+		//philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
+		//printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
+		//printf("time to die: %d\n", data->time_to_die);
 		//pthread_mutex_unlock(&data->lock_print);
-
 		check_died(philosophe, data, 1);
 
 		//printf("plate eaten: %d\n", philosophe->nb_plate_eaten);
