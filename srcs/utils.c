@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/14 06:21:04 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/14 17:07:09 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ uint32_t get_time(uint32_t time_to_add)
 	uint32_t current_time;
 	uint32_t result_time;
 
-
 	gettimeofday(&tv, NULL);
-	unsigned int time = ((tv.tv_sec * 1000 + tv.tv_usec / 1000) + time_to_add);
-	printf("printed get_time: %d\n", time);
 	current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	result_time = current_time + time_to_add;
 

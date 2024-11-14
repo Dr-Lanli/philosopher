@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:54:17 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/13 22:46:17 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/14 20:21:17 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,22 @@ void died(struct s_philosopher *philosophe, struct s_data_shared *data)
 	pthread_mutex_unlock(&data->lock_time_state);
 	//destroy_threads(&philosophe, data);
 }
-/* implementer eat_and_sleep et just_eat afin de calculer le bon temps*/
-void check_died(struct s_philosopher *philosophe, struct s_data_shared *data)
+
+void check_died(struct s_philosopher *philosophe, struct s_data_shared *data, int check)
 {
 	pthread_mutex_lock(&data->lock_print);
-	philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
+	if (check)
+		philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
+	else
+		philosophe->time_now = get_time(data->time_to_eat);
 	printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
 	printf("time to eat: %d, time to sleep: %d\n", data->time_to_eat, data->time_to_sleep);
-	
-	if (philosophe->time_now - philosophe->time_start > data->time_to_die)
+	pthread_mutex_unlock(&data->lock_print);
+	if (philosophe->time_now - philosophe->time_start >= data->time_to_die)
 	{
 		died(philosophe, data);
 	}
-	pthread_mutex_unlock(&data->lock_print);
+	usleep(500);
 }
 
 void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *data)
@@ -100,16 +103,16 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 	{
 		philosophe->has_eaten = 1;
 		philosophe->nb_plate_eaten++;
-		/* Enlever la valeur ajouter*/
-		philosophe->time_start = get_time(data->time_to_eat);
+		philosophe->time_start = get_time(0);
 		write_in_stdout(philosophe, data, "eat");
 		pthread_mutex_unlock(&data->lock_forks[philosophe->forks[0]]);
 		pthread_mutex_unlock(&data->lock_forks[philosophe->forks[1]]);
 		philosophe->forks_in_hands = 0;
+		usleep(500);
 	}
 	pthread_mutex_unlock(&data->lock_eat_state);
 	pthread_mutex_lock(&data->lock_sleep_state);
-	check_died(philosophe, data);
+	//check_died(philosophe, data, 0);
 	if (philosophe->has_eaten)
 	{
 		philosophe->has_slept = 1;
@@ -120,13 +123,13 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 	}
 	pthread_mutex_unlock(&data->lock_sleep_state);
 	pthread_mutex_lock(&data->lock_think_state);
-	check_died(philosophe, data);
 	if (philosophe->has_eaten && philosophe->has_slept)
 	{
 		philosophe->has_thought = 1;
 		write_in_stdout(philosophe, data, "think");
 	}
 	pthread_mutex_unlock(&data->lock_think_state);
+	check_died(philosophe, data, 1);
 }
 
 void *routine(void *arg)
@@ -139,9 +142,11 @@ void *routine(void *arg)
 	pthread_mutex_lock(&data->lock_print);
 	philosophe->time_start = get_time(0);
 	pthread_mutex_unlock(&data->lock_print);
+	
 	while (!has_died(philosophe, data) && !data->stop_flag)
     {
-        pthread_mutex_lock(&data->lock_forks[philosophe->forks[0]]);
+		
+		pthread_mutex_lock(&data->lock_forks[philosophe->forks[0]]);
         write_in_stdout(philosophe, data, "fork");
         pthread_mutex_lock(&data->lock_forks[philosophe->forks[1]]);
         write_in_stdout(philosophe, data, "fork");
@@ -152,17 +157,14 @@ void *routine(void *arg)
 
 		routine_condition(philosophe, data);
 		
-		pthread_mutex_lock(&data->lock_print);
+		//pthread_mutex_lock(&data->lock_print);
 		philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
-		//printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
-		//printf("time to die: %d\n", data->time_to_die);
-		pthread_mutex_unlock(&data->lock_print);
+		printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
+		printf("time to die: %d\n", data->time_to_die);
+		//pthread_mutex_unlock(&data->lock_print);
 
-		//pthread_mutex_lock(&data->lock_time_state);
-		check_died(philosophe, data);
+		check_died(philosophe, data, 1);
 
-
-		//pthread_mutex_unlock(&data->lock_time_state);
 		//printf("plate eaten: %d\n", philosophe->nb_plate_eaten);
 		//printf("must eat: %d\n", data->number_of_times_each_philosopher_must_eat);
 
@@ -180,7 +182,7 @@ void *routine(void *arg)
 		}
 		pthread_mutex_unlock(&data->lock_dead_state);
         //nb_exe_routine++;
-        usleep(25);
+        usleep(750);
     }
     return (NULL);
 }
