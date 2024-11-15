@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:54:17 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/14 22:00:43 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/15 21:45:28 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,11 @@ void died(struct s_philosopher *philosophe, struct s_data_shared *data)
 	//destroy_threads(&philosophe, data);
 }
 
-void check_died(struct s_philosopher *philosophe, struct s_data_shared *data, int check)
+void check_died(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
 	pthread_mutex_lock(&data->lock_print);
-	if (check)
-		philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
-	else
-		philosophe->time_now = get_time(data->time_to_eat);
+	philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
+
 	printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
 	printf("time to eat: %d, time to sleep: %d\n", data->time_to_eat, data->time_to_sleep);
 	pthread_mutex_unlock(&data->lock_print);
@@ -105,10 +103,11 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 		philosophe->nb_plate_eaten++;
 		philosophe->time_start = get_time(0);
 		write_in_stdout(philosophe, data, "eat");
+		//usleep(data->time_to_eat * 1000);
 		pthread_mutex_unlock(&data->lock_forks[philosophe->forks[0]]);
 		pthread_mutex_unlock(&data->lock_forks[philosophe->forks[1]]);
 		philosophe->forks_in_hands = 0;
-		usleep(500);
+		
 	}
 	pthread_mutex_unlock(&data->lock_eat_state);
 	pthread_mutex_lock(&data->lock_sleep_state);
@@ -120,6 +119,7 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 		//philosophe->time_now = get_time(data->time_to_sleep);
 		//pthread_mutex_unlock(&data->lock_time);
 		write_in_stdout(philosophe, data, "sleep");
+		//usleep(data->time_to_sleep * 1000);
 	}
 	pthread_mutex_unlock(&data->lock_sleep_state);
 	pthread_mutex_lock(&data->lock_think_state);
@@ -127,9 +127,10 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 	{
 		philosophe->has_thought = 1;
 		write_in_stdout(philosophe, data, "think");
+		usleep(1000);
 	}
 	pthread_mutex_unlock(&data->lock_think_state);
-	check_died(philosophe, data, 1);
+	check_died(philosophe, data);
 }
 
 void *routine(void *arg)
@@ -142,7 +143,10 @@ void *routine(void *arg)
 	pthread_mutex_lock(&data->lock_print);
 	philosophe->time_start = get_time(0);
 	pthread_mutex_unlock(&data->lock_print);
-	
+	if (philosophe->id % 2 == 0)
+	{
+		usleep(250);
+	}
 	while (!has_died(philosophe, data) && !data->stop_flag)
     {
 		
@@ -162,7 +166,7 @@ void *routine(void *arg)
 		//printf("time now: %d, time start: %d, now - start: %d\n", philosophe->time_now, philosophe->time_start, philosophe->time_now - philosophe->time_start);
 		//printf("time to die: %d\n", data->time_to_die);
 		//pthread_mutex_unlock(&data->lock_print);
-		check_died(philosophe, data, 1);
+		check_died(philosophe, data);
 
 		//printf("plate eaten: %d\n", philosophe->nb_plate_eaten);
 		//printf("must eat: %d\n", data->number_of_times_each_philosopher_must_eat);
@@ -181,7 +185,7 @@ void *routine(void *arg)
 		}
 		pthread_mutex_unlock(&data->lock_dead_state);
         //nb_exe_routine++;
-        usleep(750);
+        usleep(250);
     }
     return (NULL);
 }
@@ -275,7 +279,7 @@ void *deadly_routine(void *arg)
 			philosophe->forks_in_hands = 1;
 		}
 		routine_condition(philosophe, data);
-		philosophe->time_now = get_time(data->time_to_eat + data->time_to_sleep);
+		philosophe->time_now = get_time(0);
 	}
 	return (NULL);
 }
@@ -303,7 +307,7 @@ void create_threads(struct s_philosopher **philosophe, struct s_data_shared *dat
 			exit(EXIT_FAILURE);
 		}*/
 		//printf("philosophe[%d] has been created\n", philosophe[i]->id);
-       	usleep(100);
+       	//usleep(100);
         i++;
     }
 }

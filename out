@@ -1,264 +1,180 @@
-{740301395 ms} philosophe[0] has taken a fork
-{740301396 ms} philosophe[0] has taken a fork
-{740301396 ms} philosophe[0] eat
-{740301396 ms} philosophe[1] has taken a fork
-{740301396 ms} philosophe[1] has taken a fork
-{740301396 ms} philosophe[3] has taken a fork
-{740301396 ms} philosophe[0] sleep
-{740301396 ms} philosophe[0] think
-time now: 740301696, time start: 740301396, now - start: 300
+{831212833 ms} philosophe[1] has taken a fork
+{831212833 ms} philosophe[1] has taken a fork
+{831212833 ms} philosophe[1] eat
+{831212833 ms} philosophe[3] has taken a fork
+{831212833 ms} philosophe[3] has taken a fork
+{831213033 ms} philosophe[1] sleep
+{831213033 ms} philosophe[2] has taken a fork
+{831213033 ms} philosophe[3] eat
+{831213133 ms} philosophe[1] think
+time now: 831213135, time start: 831212833, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301396 ms} philosophe[3] has taken a fork
-{740301396 ms} philosophe[3] eat
-time now: 740301697, time start: 740301396, now - start: 301
-time to die: 310
-time now: 740301697, time start: 740301396, now - start: 301
+time now: 831213135, time start: 831212833, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301397 ms} philosophe[3] sleep
-{740301397 ms} philosophe[3] think
-time now: 740301697, time start: 740301396, now - start: 301
+{831213233 ms} philosophe[3] sleep
+{831213233 ms} philosophe[0] has taken a fork
+{831213233 ms} philosophe[0] has taken a fork
+{831213233 ms} philosophe[0] eat
+{831213234 ms} philosophe[2] has taken a fork
+{831213334 ms} philosophe[3] think
+time now: 831213335, time start: 831213033, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301397 ms} philosophe[1] eat
-{740301397 ms} philosophe[2] has taken a fork
-{740301397 ms} philosophe[2] has taken a fork
-time now: 740301697, time start: 740301396, now - start: 301
-time to die: 310
-time now: 740301697, time start: 740301396, now - start: 301
+time now: 831213335, time start: 831213033, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301397 ms} philosophe[1] sleep
-{740301397 ms} philosophe[1] think
-time now: 740301697, time start: 740301397, now - start: 300
+{831213434 ms} philosophe[0] sleep
+{831213434 ms} philosophe[3] has taken a fork
+{831213434 ms} philosophe[2] eat
+{831213534 ms} philosophe[0] think
+time now: 831213535, time start: 831213233, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301397 ms} philosophe[2] eat
-time now: 740301698, time start: 740301397, now - start: 301
-time to die: 310
-{740301398 ms} philosophe[2] sleep
-{740301398 ms} philosophe[2] think
-time now: 740301698, time start: 740301397, now - start: 301
+time now: 831213535, time start: 831213233, now - start: 302
 time to eat: 200, time to sleep: 100
-time now: 740301698, time start: 740301397, now - start: 301
+{831213634 ms} philosophe[2] sleep
+{831213634 ms} philosophe[1] has taken a fork
+{831213634 ms} philosophe[1] has taken a fork
+{831213634 ms} philosophe[1] eat
+{831213634 ms} philosophe[3] has taken a fork
+{831213734 ms} philosophe[2] think
+time now: 831213735, time start: 831213434, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301398 ms} philosophe[0] has taken a fork
-{740301398 ms} philosophe[0] has taken a fork
-{740301398 ms} philosophe[0] eat
-time now: 740301699, time start: 740301397, now - start: 302
-time to die: 310
-time now: 740301699, time start: 740301397, now - start: 302
+time now: 831213736, time start: 831213434, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301399 ms} philosophe[3] has taken a fork
-{740301399 ms} philosophe[3] has taken a fork
-{740301399 ms} philosophe[0] sleep
-{740301399 ms} philosophe[0] think
-time now: 740301699, time start: 740301398, now - start: 301
+{831213834 ms} philosophe[1] sleep
+{831213834 ms} philosophe[2] has taken a fork
+{831213834 ms} philosophe[3] eat
+{831213934 ms} philosophe[1] think
+time now: 831213935, time start: 831213634, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301399 ms} philosophe[3] eat
-time now: 740301699, time start: 740301398, now - start: 301
-time to die: 310
-time now: 740301699, time start: 740301398, now - start: 301
+time now: 831213936, time start: 831213634, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301399 ms} philosophe[3] sleep
-{740301399 ms} philosophe[3] think
-time now: 740301699, time start: 740301399, now - start: 300
+{831214034 ms} philosophe[3] sleep
+{831214034 ms} philosophe[0] has taken a fork
+{831214034 ms} philosophe[0] has taken a fork
+{831214034 ms} philosophe[0] eat
+{831214034 ms} philosophe[2] has taken a fork
+{831214135 ms} philosophe[3] think
+time now: 831214136, time start: 831213834, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301399 ms} philosophe[1] has taken a fork
-{740301399 ms} philosophe[1] has taken a fork
-{740301399 ms} philosophe[1] eat
-time now: 740301700, time start: 740301399, now - start: 301
-time to die: 310
-time now: 740301700, time start: 740301399, now - start: 301
+time now: 831214136, time start: 831213834, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301400 ms} philosophe[2] has taken a fork
-{740301400 ms} philosophe[2] has taken a fork
-{740301400 ms} philosophe[1] sleep
-{740301400 ms} philosophe[1] think
-time now: 740301700, time start: 740301399, now - start: 301
+{831214235 ms} philosophe[0] sleep
+{831214235 ms} philosophe[2] eat
+{831214235 ms} philosophe[3] has taken a fork
+{831214335 ms} philosophe[0] think
+time now: 831214336, time start: 831214034, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301400 ms} philosophe[2] eat
-time now: 740301701, time start: 740301399, now - start: 302
-time to die: 310
-time now: 740301701, time start: 740301399, now - start: 302
+time now: 831214336, time start: 831214034, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301401 ms} philosophe[2] sleep
-{740301401 ms} philosophe[2] think
-time now: 740301701, time start: 740301400, now - start: 301
+{831214435 ms} philosophe[2] sleep
+{831214435 ms} philosophe[1] has taken a fork
+{831214435 ms} philosophe[1] has taken a fork
+{831214435 ms} philosophe[1] eat
+{831214435 ms} philosophe[3] has taken a fork
+{831214535 ms} philosophe[2] think
+time now: 831214536, time start: 831214235, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301401 ms} philosophe[0] has taken a fork
-{740301401 ms} philosophe[0] has taken a fork
-{740301401 ms} philosophe[0] eat
-time now: 740301701, time start: 740301400, now - start: 301
-time to die: 310
-time now: 740301701, time start: 740301400, now - start: 301
+time now: 831214537, time start: 831214235, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301401 ms} philosophe[0] sleep
-{740301401 ms} philosophe[0] think
-time now: 740301701, time start: 740301401, now - start: 300
+{831214635 ms} philosophe[1] sleep
+{831214635 ms} philosophe[2] has taken a fork
+{831214635 ms} philosophe[3] eat
+{831214735 ms} philosophe[1] think
+time now: 831214736, time start: 831214435, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301401 ms} philosophe[3] has taken a fork
-{740301401 ms} philosophe[3] has taken a fork
-{740301401 ms} philosophe[3] eat
-time now: 740301702, time start: 740301401, now - start: 301
-time to die: 310
-time now: 740301702, time start: 740301401, now - start: 301
+time now: 831214737, time start: 831214435, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301402 ms} philosophe[3] sleep
-{740301402 ms} philosophe[3] think
-time now: 740301702, time start: 740301401, now - start: 301
+{831214835 ms} philosophe[3] sleep
+{831214835 ms} philosophe[0] has taken a fork
+{831214835 ms} philosophe[0] has taken a fork
+{831214835 ms} philosophe[0] eat
+{831214835 ms} philosophe[2] has taken a fork
+{831214936 ms} philosophe[3] think
+time now: 831214937, time start: 831214635, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301402 ms} philosophe[1] has taken a fork
-{740301402 ms} philosophe[1] has taken a fork
-{740301402 ms} philosophe[1] eat
-time now: 740301702, time start: 740301401, now - start: 301
-time to die: 310
-time now: 740301702, time start: 740301401, now - start: 301
+time now: 831214937, time start: 831214635, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301402 ms} philosophe[1] sleep
-{740301402 ms} philosophe[1] think
-time now: 740301702, time start: 740301402, now - start: 300
+{831215036 ms} philosophe[0] sleep
+{831215036 ms} philosophe[3] has taken a fork
+{831215036 ms} philosophe[2] eat
+{831215136 ms} philosophe[0] think
+time now: 831215137, time start: 831214835, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301403 ms} philosophe[2] has taken a fork
-{740301403 ms} philosophe[2] has taken a fork
-{740301403 ms} philosophe[2] eat
-time now: 740301703, time start: 740301402, now - start: 301
-time to die: 310
-time now: 740301703, time start: 740301402, now - start: 301
+time now: 831215138, time start: 831214835, now - start: 303
 time to eat: 200, time to sleep: 100
-{740301403 ms} philosophe[2] sleep
-{740301403 ms} philosophe[2] think
-time now: 740301703, time start: 740301403, now - start: 300
+{831215236 ms} philosophe[2] sleep
+{831215236 ms} philosophe[1] has taken a fork
+{831215236 ms} philosophe[3] has taken a fork
+{831215236 ms} philosophe[3] eat
+{831215236 ms} philosophe[1] has taken a fork
+{831215336 ms} philosophe[2] think
+time now: 831215337, time start: 831215036, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301403 ms} philosophe[0] has taken a fork
-{740301403 ms} philosophe[0] has taken a fork
-{740301403 ms} philosophe[0] eat
-time now: 740301704, time start: 740301403, now - start: 301
-time to die: 310
-time now: 740301704, time start: 740301403, now - start: 301
+time now: 831215338, time start: 831215036, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301404 ms} philosophe[0] sleep
-{740301404 ms} philosophe[0] think
-time now: 740301704, time start: 740301403, now - start: 301
+{831215436 ms} philosophe[3] sleep
+{831215436 ms} philosophe[0] has taken a fork
+{831215436 ms} philosophe[1] eat
+{831215536 ms} philosophe[3] think
+time now: 831215537, time start: 831215236, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301404 ms} philosophe[3] has taken a fork
-{740301404 ms} philosophe[3] has taken a fork
-{740301404 ms} philosophe[3] eat
-time now: 740301704, time start: 740301403, now - start: 301
-time to die: 310
-time now: 740301704, time start: 740301403, now - start: 301
+time now: 831215538, time start: 831215236, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301404 ms} philosophe[3] sleep
-{740301404 ms} philosophe[3] think
-time now: 740301704, time start: 740301404, now - start: 300
+{831215636 ms} philosophe[1] sleep
+{831215637 ms} philosophe[2] has taken a fork
+{831215637 ms} philosophe[2] has taken a fork
+{831215637 ms} philosophe[2] eat
+{831215637 ms} philosophe[0] has taken a fork
+{831215737 ms} philosophe[1] think
+time now: 831215738, time start: 831215436, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301404 ms} philosophe[1] has taken a fork
-{740301404 ms} philosophe[1] has taken a fork
-{740301404 ms} philosophe[1] eat
-time now: 740301705, time start: 740301404, now - start: 301
-time to die: 310
-time now: 740301705, time start: 740301404, now - start: 301
+time now: 831215739, time start: 831215436, now - start: 303
 time to eat: 200, time to sleep: 100
-{740301405 ms} philosophe[1] sleep
-{740301405 ms} philosophe[1] think
-time now: 740301705, time start: 740301404, now - start: 301
+{831215837 ms} philosophe[2] sleep
+{831215837 ms} philosophe[1] has taken a fork
+{831215837 ms} philosophe[0] eat
+{831215937 ms} philosophe[2] think
+time now: 831215938, time start: 831215637, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301405 ms} philosophe[2] has taken a fork
-{740301405 ms} philosophe[2] has taken a fork
-{740301405 ms} philosophe[2] eat
-time now: 740301706, time start: 740301404, now - start: 302
-time to die: 310
-time now: 740301706, time start: 740301404, now - start: 302
+time now: 831215939, time start: 831215637, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301406 ms} philosophe[2] sleep
-{740301406 ms} philosophe[2] think
-time now: 740301706, time start: 740301405, now - start: 301
+{831216037 ms} philosophe[0] sleep
+{831216037 ms} philosophe[3] has taken a fork
+{831216037 ms} philosophe[3] has taken a fork
+{831216037 ms} philosophe[3] eat
+{831216037 ms} philosophe[1] has taken a fork
+{831216137 ms} philosophe[0] think
+time now: 831216138, time start: 831215837, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301406 ms} philosophe[0] has taken a fork
-{740301406 ms} philosophe[0] has taken a fork
-{740301406 ms} philosophe[0] eat
-time now: 740301706, time start: 740301405, now - start: 301
-time to die: 310
-time now: 740301706, time start: 740301405, now - start: 301
+time now: 831216139, time start: 831215837, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301406 ms} philosophe[0] sleep
-{740301406 ms} philosophe[0] think
-time now: 740301706, time start: 740301406, now - start: 300
+{831216237 ms} philosophe[3] sleep
+{831216237 ms} philosophe[0] has taken a fork
+{831216238 ms} philosophe[1] eat
+{831216338 ms} philosophe[3] think
+time now: 831216339, time start: 831216037, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301406 ms} philosophe[3] has taken a fork
-{740301406 ms} philosophe[3] has taken a fork
-{740301406 ms} philosophe[3] eat
-time now: 740301707, time start: 740301406, now - start: 301
-time to die: 310
-time now: 740301707, time start: 740301406, now - start: 301
+time now: 831216340, time start: 831216037, now - start: 303
 time to eat: 200, time to sleep: 100
-{740301407 ms} philosophe[3] sleep
-{740301407 ms} philosophe[3] think
-time now: 740301707, time start: 740301406, now - start: 301
+{831216438 ms} philosophe[1] sleep
+{831216438 ms} philosophe[0] has taken a fork
+{831216438 ms} philosophe[0] eat
+{831216438 ms} philosophe[2] has taken a fork
+{831216438 ms} philosophe[2] has taken a fork
+{831216538 ms} philosophe[1] think
+time now: 831216539, time start: 831216238, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301407 ms} philosophe[1] has taken a fork
-{740301407 ms} philosophe[1] has taken a fork
-{740301407 ms} philosophe[1] eat
-time now: 740301707, time start: 740301406, now - start: 301
-time to die: 310
-time now: 740301707, time start: 740301406, now - start: 301
+time now: 831216540, time start: 831216238, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301408 ms} philosophe[1] sleep
-{740301408 ms} philosophe[1] think
-time now: 740301708, time start: 740301407, now - start: 301
+{831216638 ms} philosophe[0] sleep
+{831216638 ms} philosophe[2] eat
+{831216738 ms} philosophe[0] think
+time now: 831216739, time start: 831216438, now - start: 301
 time to eat: 200, time to sleep: 100
-{740301408 ms} philosophe[2] has taken a fork
-{740301408 ms} philosophe[2] has taken a fork
-{740301408 ms} philosophe[2] eat
-time now: 740301708, time start: 740301407, now - start: 301
-time to die: 310
-time now: 740301708, time start: 740301407, now - start: 301
+time now: 831216740, time start: 831216438, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301408 ms} philosophe[2] sleep
-{740301408 ms} philosophe[2] think
-time now: 740301708, time start: 740301408, now - start: 300
+{831216838 ms} philosophe[2] sleep
+{831216938 ms} philosophe[2] think
+time now: 831216940, time start: 831216638, now - start: 302
 time to eat: 200, time to sleep: 100
-{740301408 ms} philosophe[0] has taken a fork
-{740301408 ms} philosophe[0] has taken a fork
-{740301408 ms} philosophe[0] eat
-time now: 740301709, time start: 740301408, now - start: 301
-time to die: 310
-time now: 740301709, time start: 740301408, now - start: 301
-time to eat: 200, time to sleep: 100
-{740301409 ms} philosophe[0] sleep
-{740301409 ms} philosophe[0] think
-time now: 740301709, time start: 740301408, now - start: 301
-time to eat: 200, time to sleep: 100
-{740301409 ms} philosophe[3] has taken a fork
-{740301409 ms} philosophe[3] has taken a fork
-{740301409 ms} philosophe[3] eat
-time now: 740301709, time start: 740301408, now - start: 301
-time to die: 310
-time now: 740301709, time start: 740301408, now - start: 301
-time to eat: 200, time to sleep: 100
-{740301409 ms} philosophe[3] sleep
-{740301409 ms} philosophe[3] think
-time now: 740301709, time start: 740301409, now - start: 300
-time to eat: 200, time to sleep: 100
-{740301409 ms} philosophe[1] has taken a fork
-{740301409 ms} philosophe[1] has taken a fork
-{740301409 ms} philosophe[1] eat
-time now: 740301710, time start: 740301409, now - start: 301
-time to die: 310
-time now: 740301710, time start: 740301409, now - start: 301
-time to eat: 200, time to sleep: 100
-{740301410 ms} philosophe[1] sleep
-{740301410 ms} philosophe[1] think
-time now: 740301710, time start: 740301409, now - start: 301
-time to eat: 200, time to sleep: 100
-{740301410 ms} philosophe[2] has taken a fork
-{740301410 ms} philosophe[2] has taken a fork
-{740301410 ms} philosophe[2] eat
-time now: 740301711, time start: 740301409, now - start: 302
-time to die: 310
-time now: 740301711, time start: 740301409, now - start: 302
-time to eat: 200, time to sleep: 100
-{740301411 ms} philosophe[2] sleep
-{740301411 ms} philosophe[2] think
-time now: 740301711, time start: 740301410, now - start: 301
-time to eat: 200, time to sleep: 100
-time now: 740301711, time start: 740301410, now - start: 301
-time to die: 310
-time now: 740301711, time start: 740301410, now - start: 301
+time now: 831216940, time start: 831216638, now - start: 302
 time to eat: 200, time to sleep: 100
