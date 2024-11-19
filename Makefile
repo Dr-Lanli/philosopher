@@ -1,4 +1,4 @@
-SRCS = srcs/philosopher.c srcs/utils.c
+SRCS = srcs/philosopher.c srcs/utils.c srcs/threads.c srcs/mutexes.c
 
 NAME = philo
 CC = cc

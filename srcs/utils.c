@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/14 17:07:09 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/19 20:42:45 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,12 @@ int	ft_atoi(const char *str)
 		return (n);
 }
 
-uint32_t get_time(uint32_t time_to_add)
+uint32_t get_time(void)
 {
 	struct timeval tv;
-	uint32_t current_time;
-	uint32_t result_time;
 
 	gettimeofday(&tv, NULL);
-	current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	result_time = current_time + time_to_add;
-
-	return (result_time);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 int has_died(struct s_philosopher *philosophe, struct s_data_shared *data)
@@ -137,23 +132,23 @@ void write_in_stdout(struct s_philosopher *philosophe, struct s_data_shared *dat
 	}
 	else if (ft_strcmp(state, "fork") == 0)
 	{
-		printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(0), philosophe->id);
+		printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(), philosophe->id);
 	}
 	else if (ft_strcmp(state, "eat") == 0)
 	{
-		printf("{%u ms} philosophe[%d] eat\n", get_time(0), philosophe->id);
+		printf("{%u ms} philosophe[%d] eat\n", get_time(), philosophe->id);
 	}
 	else if (ft_strcmp(state, "sleep") == 0)
 	{
-		printf("{%u ms} philosophe[%d] sleep\n", get_time(0), philosophe->id);
+		printf("{%u ms} philosophe[%d] sleep\n", get_time(), philosophe->id);
 	}
 	else if (ft_strcmp(state, "think") == 0)
 	{
-		printf("{%u ms} philosophe[%d] think\n", get_time(0), philosophe->id);
+		printf("{%u ms} philosophe[%d] think\n", get_time(), philosophe->id);
 	}
 	else if (ft_strcmp(state, "died") == 0)
 	{
-		printf("{%u ms} philosophe[%d] has died\n", get_time(0), philosophe->id);
+		printf("{%u ms} philosophe[%d] has died\n", get_time(), philosophe->id);
 	}
 	pthread_mutex_unlock(&data->lock_print);
 }
