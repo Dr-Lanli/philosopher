@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/19 20:42:45 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/25 17:23:30 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	is_valid_int(char *str)
 void write_in_stdout(struct s_philosopher *philosophe, struct s_data_shared *data, char *state)
 {
 	pthread_mutex_lock(&data->lock_print);
-	if (data->stop_flag)
+	if (data->has_died)
 	{
 		pthread_mutex_unlock(&data->lock_print);
 		return ;

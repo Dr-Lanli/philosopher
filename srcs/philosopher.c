@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:54:17 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/19 23:22:09 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/25 17:25:40 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,17 @@ void sim_start_delay(uint32_t time_start)
 
 void died(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
-	if (!philosophe->has_died) 
+	pthread_mutex_lock(&data->lock_dead_state);
+	if (!data->stop_flag) 
 	{ 
-		philosophe->has_died = 1;
 		write_in_stdout(philosophe, data, "died");
+		pthread_mutex_lock(&data->lock_print);
+		data->has_died = 1;
+		pthread_mutex_unlock(&data->lock_print);
 		data->stop_flag = 1;
+
 	}
+	pthread_mutex_unlock(&data->lock_dead_state);
 	//destroy_threads(&philosophe, data);
 }
 
@@ -33,48 +38,48 @@ void check_died(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
 	uint32_t time_now;
 	
+	pthread_mutex_lock(&data->lock_eat_state);
 	time_now = get_time();
 	if (philosophe->last_plate)
 	{
-		printf("philosophe[%d], now - last_plate: %d\n", philosophe->id, time_now - philosophe->last_plate);
+		//printf("philosophe[%d], now - last_plate: %d\n", philosophe->id, time_now - philosophe->last_plate);
 		if ((time_now - philosophe->last_plate) > data->time_to_die)
 		{
 			died(philosophe, data);
 		}
 	}
+	pthread_mutex_unlock(&data->lock_eat_state);
 }
 
 void psleep(struct s_data_shared *data, uint32_t sleep_time)
 {
 	uint32_t	wake_up;
 
+	
 	wake_up = get_time() + sleep_time;
 	while (get_time() < wake_up)
 	{
-		if (data->stop_flag)
-			break;
+		//pthread_mutex_lock(&data->lock_dead_state);
+		//if (data->stop_flag)
+			//break;
+		//pthread_mutex_unlock(&data->lock_dead_state);
 		usleep(100);
 	}
 }
 
-
-void think_routine(struct s_philosopher *philosophe, struct s_data_shared *data, unsigned int silent)
+uint32_t waiting_time(struct s_philosopher *philosophe, struct s_data_shared *data)
 {
-	uint32_t	time_to_think;
+	uint32_t	waiting_time;
 
-	pthread_mutex_lock(&data->lock_eat_state);
-	time_to_think = (data->time_to_die - (get_time() - philosophe->last_plate) - data->time_to_eat) / 2;
-	pthread_mutex_unlock(&data->lock_eat_state);
-	if (time_to_think < 0)
-		time_to_think = 0;
-	if (time_to_think == 0 && silent == 1)
-		time_to_think = 1;
-	if (time_to_think > 600)
-		time_to_think = 200;
-	if (silent == 0)
-		write_in_stdout(philosophe, data, "think");
-	printf("test time to sleep: %d\n", time_to_think);
-	psleep(data, time_to_think);
+	//pthread_mutex_lock(&data->lock_sleep_state);
+	waiting_time = (data->time_to_die - data->time_to_eat) / 2;
+	if (waiting_time == 0 || waiting_time < 0)
+		waiting_time = 1;
+	if (waiting_time > 600)
+		waiting_time = 200;
+	//pthread_mutex_unlock(&data->lock_sleep_state);
+	//printf("test time to sleep: %d\n", waiting_time);
+	return (waiting_time);
 }
 
 
@@ -97,7 +102,7 @@ void routine_condition(struct s_philosopher *philosophe, struct s_data_shared *d
 		psleep(data, data->time_to_sleep);
 
 	write_in_stdout(philosophe, data, "think");
-		usleep(250);
+		//usleep(250);
 }
 
 void *routine(void *arg)
@@ -112,9 +117,8 @@ void *routine(void *arg)
 	pthread_mutex_unlock(&data->lock_eat_state);
 	sim_start_delay(data->time_start);
 	if (philosophe->id % 2)
-		think_routine(philosophe, data, 1);
-		//usleep(20000);
-		
+		psleep(data, waiting_time(philosophe, data));
+			
 	while (!has_died(philosophe, data) && !data->stop_flag)
     {
 		check_died(philosophe, data);
@@ -138,16 +142,16 @@ void *routine(void *arg)
 		//printf("plate eaten: %d\n", philosophe->nb_plate_eaten);
 		//printf("must eat: %d\n", data->number_of_times_each_philosopher_must_eat);
 
-		pthread_mutex_lock(&data->lock_dead_state);
+		//pthread_mutex_lock(&data->lock_dead_state);
 		if (data->number_of_times_each_philosopher_must_eat)
 		{
 			if (philosophe->nb_plate_eaten > data->number_of_times_each_philosopher_must_eat)
-				{
-					pthread_mutex_unlock(&data->lock_dead_state);
-					return (NULL);
-				}
+			{
+				//pthread_mutex_unlock(&data->lock_dead_state);
+				return (NULL);
+			}
 		}
-		pthread_mutex_unlock(&data->lock_dead_state);
+		//pthread_mutex_unlock(&data->lock_dead_state);
         //nb_exe_routine++;
         usleep(250);
     }
@@ -345,6 +349,7 @@ void assign_inputs(int argc, char *argv[], struct s_data_shared *data)
     data->time_to_eat = ft_atoi(argv[3]);
     data->time_to_sleep = ft_atoi(argv[4]);
 	data->stop_flag = 0;
+	data->has_died = 0;
     if (argv[5])
         data->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
     else

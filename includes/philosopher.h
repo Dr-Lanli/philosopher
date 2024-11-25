@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:55:51 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/19 21:55:45 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/25 17:20:20 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ struct s_data_shared
 	//pthread_mutex_t lock_dead_assign;
     pthread_mutex_t *lock_forks;
 	unsigned int stop_flag;
+	unsigned int has_died;
 	unsigned int id;
     unsigned int number_of_philosophers;
     unsigned int number_of_times_each_philosopher_must_eat;
