@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 21:57:04 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/26 01:13:17 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/26 02:35:58 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int main (int argc, char *argv[])
     struct s_data_shared data;
     struct s_philo **philo;
 	
+	philo = NULL;
 	check_inputs(argc, argv);
     assign_inputs(argv, &data);
-	philo = NULL;
 	philo = alloc_struct(philo, &data);
     assign_struct(philo, &data);
 	mutex_init(&data);
