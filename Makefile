@@ -1,8 +1,9 @@
-SRCS = srcs/philosopher.c srcs/utils.c srcs/threads.c srcs/mutexes.c
+SRCS = srcs/main.c srcs/utils.c srcs/routine.c srcs/mutexes.c srcs/died.c \
+		srcs/time.c srcs/assign.c srcs/strings_manipulation.c
 
 NAME = philo
 CC = cc
-CFLAGS = # -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g
 
 
 
