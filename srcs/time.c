@@ -6,21 +6,26 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 23:51:58 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/26 01:04:39 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/27 03:47:25 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosopher.h"
 
-uint32_t get_time(void)
+uint32_t	get_time(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-uint32_t waiting_time(struct s_data_shared *data)
+/* Permet d'ajuster le temps de démarrage de chaque thread
+	en fonction de time_to_die et time_to_eat
+	on calcul la différence divisé par deux afin de créer
+	un délais entre les deux valeur.
+*/
+uint32_t	waiting_time(struct s_data_shared *data)
 {
 	uint32_t	waiting_time;
 
@@ -32,18 +37,20 @@ uint32_t waiting_time(struct s_data_shared *data)
 	return (waiting_time);
 }
 
-void psleep(uint32_t sleep_time)
+/* Permet de gérer le temps d'attente d'un thread
+	de manière plus optimal qu'un simple usleep.
+*/
+void	psleep(uint32_t sleep_time)
 {
-	uint32_t	wake_up;
+	uint32_t	end;
 
-	
-	wake_up = get_time() + sleep_time;
-	while (get_time() < wake_up)
+	end = get_time() + sleep_time;
+	while (get_time() < end)
 	{
-		//pthread_mutex_lock(&data->lock_dead_state);
-		//if (data->stop_flag)
-			//break;
-		//pthread_mutex_unlock(&data->lock_dead_state);
+		// pthread_mutex_lock(&data->lock_dead_state);
+		// if (data->stop_flag)
+		// break ;
+		// pthread_mutex_unlock(&data->lock_dead_state);
 		usleep(100);
 	}
 }

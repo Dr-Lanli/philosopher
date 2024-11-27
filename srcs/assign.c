@@ -6,12 +6,20 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 23:57:06 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/26 01:12:28 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/27 04:09:05 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosopher.h"
 
+/* Assigne les fourchettes aux philos
+	philo pair = fork[0] = fourchette gauche (sa fourchette)
+			   = fork[1] = fourchette droite (fourchette du prochain)
+	philo impair = fork[0] = fourchette droite
+				 = fork[1] = fourchette gauche
+	permet d'éviter l'acces aux même fourchettes.
+	Le modulo du nb_philo permet de boucler autour de la table des philos
+*/
 static void assign_forks(struct s_philo *philo, struct s_data_shared *data)
 {
 	//printf(COLOR_YELLOW "address of lock_forks: %p\n" RESET_ALL, data->lock_forks);

@@ -6,15 +6,15 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/26 01:12:16 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/27 03:47:48 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosopher.h"
 
-void free_struct(struct s_philo **philo, struct s_data_shared *data)
+void	free_struct(struct s_philo **philo, struct s_data_shared *data)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
 	while (i < data->nb_of_philo)
@@ -28,24 +28,25 @@ void free_struct(struct s_philo **philo, struct s_data_shared *data)
 	}
 }
 
-void destroy_threads(struct s_philo **philo, struct s_data_shared *data)
+void	destroy_threads(struct s_philo **philo, struct s_data_shared *data)
 {
-    unsigned int i;
-    
-    i = 0;
-    while (i < data->nb_of_philo)
-    {
-        if (pthread_join(philo[i]->thread, NULL) != 0)
-        {
+	unsigned int	i;
+
+	i = 0;
+	while (i < data->nb_of_philo)
+	{
+		if (pthread_join(philo[i]->thread, NULL) != 0)
+		{
 			free_struct(philo, data);
-            exit(EXIT_FAILURE);
-        }
-        usleep(25);
-        i++;
-    }
+			exit(EXIT_FAILURE);
+		}
+		usleep(25);
+		i++;
+	}
 }
 
-void write_in_stdout(struct s_philo *philo, struct s_data_shared *data, char *state)
+void	write_in_stdout(struct s_philo *philo, struct s_data_shared *data,
+		char *state)
 {
 	pthread_mutex_lock(&data->lock_print);
 	if (data->has_died)
@@ -54,7 +55,8 @@ void write_in_stdout(struct s_philo *philo, struct s_data_shared *data, char *st
 		return ;
 	}
 	else if (ft_strcmp(state, "fork") == 0)
-		printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(), philo->id);
+		printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(),
+			philo->id);
 	else if (ft_strcmp(state, "eat") == 0)
 		printf("{%u ms} philosophe[%d] eat\n", get_time(), philo->id);
 	else if (ft_strcmp(state, "sleep") == 0)

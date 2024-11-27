@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 23:15:48 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/26 01:07:52 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/27 03:47:21 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static size_t	ft_strlen(const char *s)
 
 static int	is_valid_int(char *str)
 {
-	size_t		len;
+	size_t	len;
 	char	*int_max_str;
 	char	*int_min_str;
 
@@ -58,10 +58,10 @@ static int	is_valid_int(char *str)
 	return (1);
 }
 
-void browse_inputs(char *argv[])
+void	browse_inputs(char *argv[])
 {
-	char *current_arg;
-	
+	char	*current_arg;
+
 	argv++;
 	while (*argv)
 	{
