@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 23:51:58 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/27 03:47:25 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/27 19:26:37 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,21 @@ uint32_t	waiting_time(struct s_data_shared *data)
 /* Permet de gérer le temps d'attente d'un thread
 	de manière plus optimal qu'un simple usleep.
 */
-void	psleep(uint32_t sleep_time)
+void	psleep(struct s_philo *philo, uint32_t sleep_time)
 {
 	uint32_t	end;
 
 	end = get_time() + sleep_time;
 	while (get_time() < end)
 	{
-		// pthread_mutex_lock(&data->lock_dead_state);
-		// if (data->stop_flag)
-		// break ;
-		// pthread_mutex_unlock(&data->lock_dead_state);
+		check_died(philo, philo->data);
+		pthread_mutex_lock(&philo->data->lock_dead_state);
+		if (philo->data->has_died)
+		{
+			pthread_mutex_unlock(&philo->data->lock_dead_state);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->data->lock_dead_state);
 		usleep(100);
 	}
 }

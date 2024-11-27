@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 21:50:58 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/27 03:47:17 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/27 19:26:25 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ static void	routine_condition(struct s_philo *philo, struct s_data_shared *data)
 	philo->nb_plate_eaten++;
 	philo->last_plate = get_time();
 	pthread_mutex_unlock(&data->lock_eat_state);
-	psleep(data->time_to_eat);
+	psleep(philo, data->time_to_eat);
 	check_died(philo, data);
 	pthread_mutex_unlock(&data->lock_forks[philo->forks[0]]);
 	pthread_mutex_unlock(&data->lock_forks[philo->forks[1]]);
 	write_in_stdout(philo, data, "sleep");
-	psleep(data->time_to_sleep);
+	psleep(philo, data->time_to_sleep);
 	write_in_stdout(philo, data, "think");
 }
 
@@ -91,7 +91,7 @@ void	*routine(void *arg)
 	philo = arg;
 	data = philo->data;
 	if (philo->id % 2)
-		psleep(waiting_time(data));
+		psleep(philo, waiting_time(data));
 	while (!has_died(philo, data) && !data->stop_flag)
 	{
 		check_died(philo, data);

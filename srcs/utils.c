@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 17:13:54 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/27 03:47:48 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/27 19:57:39 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,18 @@ void	write_in_stdout(struct s_philo *philo, struct s_data_shared *data,
 		return ;
 	}
 	else if (ft_strcmp(state, "fork") == 0)
-		printf("{%u ms} philosophe[%d] has taken a fork\n", get_time(),
-			philo->id);
+		printf(COLOR_BWHITE "{%u} [%d] has taken a fork\n" RESET_ALL,
+			get_time(), philo->id);
 	else if (ft_strcmp(state, "eat") == 0)
-		printf("{%u ms} philosophe[%d] eat\n", get_time(), philo->id);
+		printf(COLOR_YELLOW "{%u} [%d] is eating\n" RESET_ALL, get_time(),
+			philo->id);
 	else if (ft_strcmp(state, "sleep") == 0)
-		printf("{%u ms} philosophe[%d] sleep\n", get_time(), philo->id);
+		printf(COLOR_YELLOW "{%u} [%d] is sleeping\n" RESET_ALL, get_time(),
+			philo->id);
 	else if (ft_strcmp(state, "think") == 0)
-		printf("{%u ms} philosophe[%d] think\n", get_time(), philo->id);
+		printf(COLOR_YELLOW "{%u} [%d] is thinking\n" RESET_ALL, get_time(),
+			philo->id);
 	else if (ft_strcmp(state, "died") == 0)
-		printf("{%u ms} philosophe[%d] has died\n", get_time(), philo->id);
+		printf(COLOR_RED "{%u} [%d] died\n" RESET_ALL, get_time(), philo->id);
 	pthread_mutex_unlock(&data->lock_print);
 }

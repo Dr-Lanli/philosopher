@@ -6,7 +6,7 @@
 /*   By: lmonsat <lmonsat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 23:57:06 by lmonsat           #+#    #+#             */
-/*   Updated: 2024/11/27 04:09:05 by lmonsat          ###   ########.fr       */
+/*   Updated: 2024/11/27 19:40:13 by lmonsat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,26 @@
 
 /* Assigne les fourchettes aux philos
 	philo pair = fork[0] = fourchette gauche (sa fourchette)
-			   = fork[1] = fourchette droite (fourchette du prochain)
+				= fork[1] = fourchette droite (fourchette du prochain)
 	philo impair = fork[0] = fourchette droite
-				 = fork[1] = fourchette gauche
+					= fork[1] = fourchette gauche
 	permet d'éviter l'acces aux même fourchettes.
 	Le modulo du nb_philo permet de boucler autour de la table des philos
+	printf("Philo [%d] holding forks: [%d, %d]\n",
+		philo->id, philo->forks[0], philo->forks[1]);
 */
-static void assign_forks(struct s_philo *philo, struct s_data_shared *data)
+static void	assign_forks(struct s_philo *philo, struct s_data_shared *data)
 {
-	//printf(COLOR_YELLOW "address of lock_forks: %p\n" RESET_ALL, data->lock_forks);
 	philo->forks[0] = philo->id;
-	//printf(COLOR_YELLOW "philo [%d] address of forks[0]: %p\n" RESET_ALL, philo->id, (void *)&philo->forks[0]);
 	philo->forks[1] = (philo->id + 1) % data->nb_of_philo;
-	//printf(COLOR_YELLOW "phi [%d] address of forks[1]: %p\n" RESET_ALL, phi->id, (void *)&phi->forks[1]);
 	if (philo->id % 2)
 	{
 		philo->forks[0] = (philo->id + 1) % data->nb_of_philo;
-		//printf(COLOR_YELLOW "address of forks[0]: %p\n" RESET_ALL, (void *)&philo->forks[0]);
 		philo->forks[1] = philo->id;
-		//printf(COLOR_YELLOW "address of forks[1]: %p\n" RESET_ALL, (void *)&philo->forks[1]);
 	}
 }
 
-static void assign_struct_suite(struct s_philo *philo)
+static void	assign_struct_suite(struct s_philo *philo)
 {
 	philo->thread = 0;
 	philo->last_plate = 0;
@@ -46,18 +43,18 @@ static void assign_struct_suite(struct s_philo *philo)
 	philo->has_died = false;
 }
 
-void assign_struct(struct s_philo **philo, struct s_data_shared *data)
+void	assign_struct(struct s_philo **philo, struct s_data_shared *data)
 {
-	unsigned int i;
-	unsigned int j;
+	unsigned int	i;
+	unsigned int	j;
 
 	i = 0;
 	j = 0;
-    while (i < data->nb_of_philo)
-    {
-        philo[i] = malloc(sizeof(struct s_philo));
-        if(!philo[i])
-        {
+	while (i < data->nb_of_philo)
+	{
+		philo[i] = malloc(sizeof(struct s_philo));
+		if (!philo[i])
+		{
 			while (j < i)
 				free(philo[j++]);
 			free(philo);
@@ -67,6 +64,6 @@ void assign_struct(struct s_philo **philo, struct s_data_shared *data)
 		philo[i]->id = i;
 		assign_struct_suite(philo[i]);
 		assign_forks(philo[i], data);
-        i++;
-    }
+		i++;
+	}
 }
